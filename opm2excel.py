@@ -76,7 +76,7 @@ if __name__ == "__main__":
     data = []
     row = []
     rowNumber = 0
-    #deviceName = ""  # 保留用的设备名称
+    deviceName = ""  # 保留用的设备名称
 
     #根据分类，获取设备列表
     s = requests.Session()
@@ -86,11 +86,11 @@ if __name__ == "__main__":
     if sList and isinstance(sList, list):#判断是否有结果集合
         for _s in sList:
             rowNumber = rowNumber + 1 #生成记录号
-            #deviceName = _get_value(_s, 'deviceName')
+            deviceName = _get_value(_s, 'deviceName')
             row = [rowNumber, _get_value(_s, 'displayName'), _get_value(_s, 'type'), _get_value(_s, 'ipaddress')]
             #获取某一设备对应的指标列表，结果是一个LIST
             url2 = opmUrl+ '/api/json/device/getAssociatedMonitors?apiKey='+apiKey+'&name=' + _get_value(
-                _s, 'ipaddress')
+                _s, 'deviceName')
             m = s.get(url2).json().get('performanceMonitors').get('monitors')
             if isinstance(m, list) and len(m) > 1:
                 # 获取CPU利用率
